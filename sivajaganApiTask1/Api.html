@@ -1,0 +1,48 @@
+<!--This is svajagan,I have completed the task-1 based on questions which was given by you.
+I am eagerly waiting for join this company and then it will improve my knowlege as well as waiting for work with expertise
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REStful API</title>
+    <link rel="stylesheet" href="Api.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Prices:</h1>
+        <div id="pricedata"></div>
+        <h1>Volume:</h1>
+        <div id="volumedata"></div>
+        <button onclick="fetchApi()">Fetch Data</button>
+    </div>
+   
+    <script>
+        const fetchApi = () => {
+            fetch('https://api.dexscreener.com/latest/dex/tokens/inj19dtllzcquads0hu3ykda9m58llupksqwekkfnw')
+            .then(res => res.json())
+            .then(data => {
+                let priceHtml = '';
+                let volumeHtml = '';
+                data.pairs.forEach(pair => {
+                    // Construct price HTML
+                    Object.entries(pair.priceChange).forEach(([key, value]) => {
+                        priceHtml += `<p>${key} price is: <li>${value}</li></p>`;
+                    });
+                    // Construct volume HTML
+                    Object.entries(pair.volume).forEach(([key, value]) => {
+                        volumeHtml += `<p>${key} volume is: <li>${value}</li></p>`;
+                    });
+                });
+                document.getElementById('pricedata').innerHTML = priceHtml;
+                document.getElementById('volumedata').innerHTML = volumeHtml;
+            })
+            .catch(error => {
+                console.error('Error in fetching data:', error);
+            });
+        }
+    </script>
+</body>
+</html>
